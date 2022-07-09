@@ -2,7 +2,7 @@ from dash import Dash, html, dcc
 import dash
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-app = Dash(__name__, use_pages=True, external_stylesheets=external_stylesheets)
+app = Dash(__name__, use_pages=True, external_stylesheets=external_stylesheets, title="Catalyst")
 
 server = app.server
 

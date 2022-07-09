@@ -7,7 +7,7 @@ import pandas as pd
 from layout.set_condition import set_condition
 from database import get_matching
 
-dash.register_page(__name__, path='/business')
+dash.register_page(__name__, path='/business', title='Catalyst Business', image="logo.png")
 app = dash.get_app()
 
 layout = html.Div([

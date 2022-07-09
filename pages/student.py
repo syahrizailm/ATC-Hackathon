@@ -5,7 +5,7 @@ from dash.dependencies import Input, Output, State
 from layout.portfolio import input_field
 from database import insert
 
-dash.register_page(__name__, path='/')
+dash.register_page(__name__, path='/', title='Catalyst', image="logo.png")
 app = dash.get_app()
 
 # Main app Layout
