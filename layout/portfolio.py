@@ -1,7 +1,7 @@
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 
-from parameters.portfolio import *
+from layout.portfolio_parameters import *
 
 def generate_input_field(field_name, input_type):
     return html.Div(

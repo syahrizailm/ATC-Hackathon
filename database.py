@@ -25,6 +25,7 @@ def insert(data):
     except:
         return 0
 
+# Get matching from DB
 def get_matching(condition):
     """
     Return query string for mongodb
@@ -58,7 +59,10 @@ def get_matching(condition):
             }
         },
         {
-            "$sort": {"matching_score": 1}
+            "$sort": {"matching_score": -1}
+        },
+        {
+            "$limit": 10
         }
     ]
 
