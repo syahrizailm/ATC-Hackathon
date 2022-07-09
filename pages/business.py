@@ -32,18 +32,18 @@ layout = html.Div([
                     style_data_conditional=[
                         {
                             'if': {'row_index': 'odd'},
-                            'backgroundColor': '#ECF0F3',
+                            'backgroundColor': '#FAFDFF',
                         }
                     ],
                     style_header={
-                        'backgroundColor': '#ECF0F3',
+                        'backgroundColor': '#FAFDFF',
                         'color': 'black',
                         'fontWeight': 'bold',
                         "padding": "10px"
                     }
                 ),
                 style = {
-                    "width": "80%",
+                    "width": "60%",
                     "overflow": "scroll",
                     "margin": "80px auto",
                     "marginBottom": "0px",
@@ -126,9 +126,31 @@ def get_profile(n_clicks, skills, programming, framework):
     # Get from DB
     matched = get_matching(condition_query)
     if matched:
-        # Show Success/Failed
+
+        # Changing into pandas dataframe
         profile_df = pd.DataFrame(list(matched))
         profile_df = profile_df.drop(columns="_id")
+
+        # Reordering columns
+        profile_df = profile_df.reindex(columns = [
+            "matching_score",
+            "name",
+            "skills", "programming", "framework",
+            "japanese", "english",
+            "uni", "year"
+        ])
+
+        # Changing column name
+        profile_df = profile_df.rename(columns={
+            "year": "graduation year",
+            "matching_score": "matching score"
+        })
+
+        # Changing float to percentage
+        profile_df.loc[:, "matching score"] = profile_df["matching score"].map(
+            '{0:.0%}'.format
+        )
+
         data = profile_df.to_dict("records")
         columns = [{"name": i.title(), "id": i} for i in profile_df.columns]
 
