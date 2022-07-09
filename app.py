@@ -16,23 +16,18 @@ app = Dash(__name__, external_stylesheets=external_stylesheets)
 # Check local or prod
 is_prod = os.environ.get('IS_HEROKU', None)
 
-# Get Password
+# Provide the mongodb atlas url to connect python to mongodb using pymongo
 if is_prod:
-    PASS = os.environ.get('MONGO_PASS')
+    CONNECTION_STRING = os.environ.get('MONGO_CONNECTION')
 else:
     load_dotenv()
-    PASS = os.environ["MONGO_PASS"]
-
-# Provide the mongodb atlas url to connect python to mongodb using pymongo
-CONNECTION_STRING = f"mongodb+srv://syahrizailm:{PASS}@cluster0.xvzk5.mongodb.net/?retryWrites=true&w=majority"
-
+    CONNECTION_STRING = os.environ["MONGO_CONNECTION"]
+    
 # Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
 client = MongoClient(CONNECTION_STRING)
 db = client['portfolio_list']
 
 server = app.server
-
-profiles = pd.read_csv("profile.csv")
 
 app.layout = html.Div([
     dcc.Loading(
