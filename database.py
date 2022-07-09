@@ -43,6 +43,7 @@ def get_matching(condition):
         )
 
     query = [
+        # Finding matching score
         {
             "$addFields": {
                 "matching_score": {
@@ -53,6 +54,8 @@ def get_matching(condition):
                 }
             }
         },
+
+        # Only use top 10 matching score
         {
             "$match": {
                 "$expr": {"$gt": ["$matching_score", 0]}
@@ -63,6 +66,51 @@ def get_matching(condition):
         },
         {
             "$limit": 10
+        },
+
+        # Changing array to skills so it can be converted into table
+        {
+            "$addFields": {
+                "skills": { "$reduce": {
+                    "input": "$skills",
+                    "initialValue": "",
+                    "in": { "$concat": [
+                        "$$value",
+                        { "$cond": {
+                                "if": { "$eq": [ "$$value", "" ] },
+                                "then": "",
+                                "else": ", "
+                        }},
+                        "$$this"                    
+                    ]}
+                }},
+                "programming": { "$reduce": {
+                    "input": "$programming",
+                    "initialValue": "",
+                    "in": { "$concat": [
+                        "$$value",
+                        { "$cond": {
+                                "if": { "$eq": [ "$$value", "" ] },
+                                "then": "",
+                                "else": ", "
+                        }},
+                        "$$this"                    
+                    ]}
+                }},
+                "framework": { "$reduce": {
+                    "input": "$framework",
+                    "initialValue": "",
+                    "in": { "$concat": [
+                        "$$value",
+                        { "$cond": {
+                                "if": { "$eq": [ "$$value", "" ] },
+                                "then": "",
+                                "else": ", "
+                        }},
+                        "$$this"                    
+                    ]}
+                }},                
+            }
         }
     ]
 
