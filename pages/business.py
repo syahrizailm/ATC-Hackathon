@@ -1,24 +1,39 @@
 import dash
-from dash import html, dcc, callback, Input, Output
+from dash import Dash, dcc, html
+from dash.dependencies import Input, Output, State
+from pymongo import MongoClient
+from dotenv import load_dotenv
+import os
+
+from layout.portfolio import input_field
+from database import get_matching
 
 dash.register_page(__name__, path='/business')
+app = dash.get_app()
 
-layout = html.Div(children=[
-    html.H1(children='This is our Analytics page'),
-	html.Div([
-        "Select a city: ",
-        dcc.RadioItems(['New York City', 'Montreal','San Francisco'],
-        'Montreal',
-        id='analytics-input')
-    ]),
-	html.Br(),
-    html.Div(id='analytics-output'),
-])
+# Check local or prod
+is_prod = os.environ.get('IS_HEROKU', None)
 
+# Provide the mongodb atlas url to connect python to mongodb using pymongo
+if is_prod:
+    CONNECTION_STRING = os.environ.get('MONGO_CONNECTION')
+else:
+    load_dotenv()
+    CONNECTION_STRING = os.environ["MONGO_CONNECTION"]
 
-@callback(
-    Output(component_id='analytics-output', component_property='children'),
-    Input(component_id='analytics-input', component_property='value')
+# Create a connection using MongoClient. You can import MongoClient or use pymongo.MongoClient
+client = MongoClient(CONNECTION_STRING)
+db = client['portfolio_list']
+collection = db["portfolio_collection"]
+
+# Query
+matched = get_matching([
+        {"param": "framework", "value": "TensorFlow"},
+        {"param": "programming", "value": "Python"}
+    ])
+for i in matched:
+    print(i["email"], i["matching_score"])
+
+layout = html.Div(
+    "Test"
 )
-def update_city_selected(input_value):
-    return f'You selected: {input_value}'
