@@ -157,7 +157,7 @@ def get_profile(n_clicks, skills, programming, framework):
         # Button style
         style = {
             "margin": "10px auto",
-            "width": "40%",
+            "width": "60%",
             "display": "block"
         }
 

@@ -6,7 +6,7 @@ from layout.portfolio_parameters import *
 set_condition = html.Div(
     style = {
         "margin": "60px auto",
-        "width": "40%",
+        "width": "60%",
         "display": "block"
     },
     children = [ 
