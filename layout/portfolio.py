@@ -22,7 +22,7 @@ def generate_input_field(field_name, input_type):
 input_field = html.Div(
     style = {
         "margin": "60px auto",
-        "width": "40%",
+        "width": "60%",
         "display": "block"
     },
     children = [ 
