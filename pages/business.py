@@ -20,6 +20,7 @@ layout = html.Div([
                     data = [], 
                     columns = [],
                     id = "result-table",
+                    row_deletable=True,
                     style_cell={
                         'textAlign': 'left',
                         "fontFamily": "sans-serif",
