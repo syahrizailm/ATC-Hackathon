@@ -58,7 +58,8 @@ def get_matching(condition):
         # Only use top 10 matching score
         {
             "$match": {
-                "$expr": {"$gt": ["$matching_score", 0]}
+                # Only if matching score is greater than 50%
+                "$expr": {"$gt": ["$matching_score", 0.5]}
             }
         },
         {
